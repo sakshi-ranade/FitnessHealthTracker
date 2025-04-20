@@ -28,7 +28,7 @@ public class HeartRate extends LogEntry {
    * @return true if valid, otherwise throws an exception.
    * @throws IllegalArgumentException If the heart rate is not within 30-220 bpm.
    */
-  public boolean validateHeartRate(int heartRate) {
+  public static boolean validateHeartRate(int heartRate) {
     if (heartRate >= 30 && heartRate <= 220) {
       return true;
     }

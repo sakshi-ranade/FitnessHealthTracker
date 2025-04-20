@@ -51,7 +51,7 @@ public class Steps extends LogEntry {
    * @return true if valid, otherwise throws IllegalArgumentException.
    * @throws IllegalArgumentException if steps are invalid.
    */
-  private boolean validateSteps(int steps) {
+  private static boolean validateSteps(int steps) {
     if (steps <= 0) {
       throw new IllegalArgumentException("Steps cannot be negative!");
     }
