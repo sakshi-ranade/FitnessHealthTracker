@@ -116,8 +116,8 @@ public class PeriodLog extends LogEntry{
   @Override
   public String toString() {
     return "Period Log" +
-        "\nStarted on: " + getStartDate().format(dateFormatter) +
-        "\nEnded on: " + getEndDate().format(dateFormatter) +
+        "\nStarted on: " + getStartDate().format(Constants.dateFormatter) +
+        "\nEnded on: " + getEndDate().format(Constants.dateFormatter) +
         "\n Duration: " + periodDuration();
   }
 }

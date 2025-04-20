@@ -73,21 +73,6 @@ public class UserProfileTest {
     assertEquals("Date of Birth cannot be in the future.", exception.getMessage());
   }
 
-  /**
-   * Test that the daily log file is correctly generated from the username.
-   * Verifies that the dailyLogFile field is set to the lowercase username with .json extension.
-   */
-  @Test
-  public void testDailyLogFile() {
-    LocalDate dob = LocalDate.of(1998, 6, 16);
-    UserProfile user = new UserProfile("Adam", "Adam123", "abcxyz1234", Gender.MALE, dob);
-    // Check the daily log file is correctly formatted
-    assertEquals("adam123.json", user.getDailyLogFile());
-
-    // Test that changing the username updates the daily log file
-    user.setUserName("NewAdam456");
-    assertEquals("newadam456.json", user.getDailyLogFile());
-  }
 
   /**
    * Test the string representation of the UserProfile object.
@@ -103,8 +88,7 @@ public class UserProfileTest {
     String expectedOutput = "Name: Adam\n" +
         "UserName: adam123\n" +
         "Gender: MALE\n" +
-        "DOB: 1998-06-16\n" +
-        "Daily Log File: adam123.json";
+        "DOB: 1998-06-16";
     // Compare actual toString() output with expected
     assertEquals(expectedOutput, user.toString());
   }

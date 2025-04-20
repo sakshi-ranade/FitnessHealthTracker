@@ -24,7 +24,6 @@ public class UserProfile {
   String password;
   private Gender gender;
   private LocalDate dateOfBirth;
-  private String dailyLogFile;
 
   /**
    * Constructs a new UserProfile with the given attributes.
@@ -46,7 +45,6 @@ public class UserProfile {
     this.password = password;
     this.gender = gender;
     setDateOfBirth(dateOfBirth); //validation inside setter method
-    setDailyLogFile(); // Set the daily log file based on username
   }
 
   //Getter and Setters
@@ -89,7 +87,6 @@ public class UserProfile {
 
   public void setUserName(String userName) {
     this.userName = userName;
-    setDailyLogFile(); // Update daily log file when username changes
   }
 
   /**
@@ -165,25 +162,6 @@ public class UserProfile {
   }
 
   /**
-   * Returns the daily log file path of the user.
-   *
-   * @return The daily log file path of the user.
-   */
-  public String getDailyLogFile() {
-    return dailyLogFile;
-  }
-
-  /**
-   * Sets the daily log file path based on the username.
-   * The path is constructed by converting the username to lowercase and adding a .json extension.
-   */
-  private void setDailyLogFile() {
-    if (userName != null) {
-      this.dailyLogFile = userName.toLowerCase() + ".json";
-    }
-  }
-
-  /**
    * Calculates and returns the age of the user in years and months.
    * Returns "Unknown Age" if the date of birth is not set.
    *
@@ -213,7 +191,6 @@ public class UserProfile {
   public String toString(){
     //Returns the user details
     return "Name: " + this.name + "\nUserName: " + this.userName + "\nGender: " + this.gender +
-        "\nDOB: " + (dateOfBirth != null ? dateOfBirth : "N/A") +
-        "\nDaily Log File: " + this.dailyLogFile;
+        "\nDOB: " + (dateOfBirth != null ? dateOfBirth : "N/A");
   }
 }

@@ -40,7 +40,7 @@ public class StepsTest {
   public void testToString() {
     LocalTime time = LocalTime.of(9, 15);
     Steps entry = new Steps(time, 3000);
-    String expected = "Time: " + time.format(Steps.timeFormatter) + " Steps: 3000";
+    String expected = "Time: " + time.format(Constants.timeFormatter) + " Steps: 3000";
     assertEquals(expected, entry.toString());
   }
 }

@@ -47,7 +47,7 @@ public class HeartRate extends LogEntry {
 
   @Override
   public String toString() {
-    return "Time: " + getTime().format(timeFormatter) + "\n"
+    return "Time: " + getTime().format(Constants.timeFormatter) + "\n"
         + "Heart Rate: " + heartRate + "\n"
         + "Activity: " + getTags();
   }

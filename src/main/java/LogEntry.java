@@ -17,15 +17,6 @@ public abstract class LogEntry {
    */
   protected LocalTime time;
   /**
-   * A static final DateTimeFormatter for formatting the date in "MM-dd-yyyy" pattern.
-   */
-  protected static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-  /**
-   * A static final DateTimeFormatter for formatting the time in "HH:mm:ss" pattern.
-   */
-  protected static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-  /**
    * Constructs a new {@code LogEntry} with the specified tags, date, and time.
    *
    * @param tags The tags associated with this log entry.
@@ -69,7 +60,7 @@ public abstract class LogEntry {
    * @return The formatted time string.
    */
   public String getFormattedTime() {
-    return time.format(timeFormatter);
+    return time.format(Constants.timeFormatter);
   }
 
   /**
