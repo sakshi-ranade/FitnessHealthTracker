@@ -1,35 +1,54 @@
-import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Represents a log entry specifically for heart rate data.
+ * Extends the {@link LogEntry} class and includes the heart rate value.
+ */
 public class HeartRate extends LogEntry {
   private int heartRate;
 
-  public HeartRate(String tags, LocalDate date, LocalTime time, int heartRate){
-    super(tags, date, time);
-    this.heartRate = heartRate;
+  /**
+   * Constructs a new {@code HeartRate} object with the specified tags, date, time, and heart rate.
+   *
+   * @param tags      The tags associated with this heart rate log entry (e.g., activity performed).
+   * @param time      The time when the heart rate was recorded.
+   * @param heartRate The recorded heart rate value.
+   */
+  public HeartRate(String tags, LocalTime time, int heartRate) {
+    super(tags, time);
+    if (validateHeartRate(heartRate)) {
+      this.heartRate = heartRate;
+    }
   }
 
-  public void validateHeartRate() // method to check heart rate values
-  {
-    if (heartRate > 30 && heartRate <221){
-      this.heartRate = heartRate;
+  /**
+   * Validates the heart rate value to ensure it falls within a reasonable physiological range (30-220 bpm).
+   *
+   * @param heartRate The heart rate value to validate.
+   * @return true if valid, otherwise throws an exception.
+   * @throws IllegalArgumentException If the heart rate is not within 30-220 bpm.
+   */
+  public boolean validateHeartRate(int heartRate) {
+    if (heartRate >= 30 && heartRate <= 220) {
+      return true;
     }
     throw new IllegalArgumentException("Invalid Heart Rate Value Entered.");
   }
 
-  //Getter and Setter for Heart Rate
   public int getHeartRate() {
     return heartRate;
   }
 
   public void setHeartRate(int heartRate) {
-    this.heartRate = heartRate;
+    if (validateHeartRate(heartRate)) {
+      this.heartRate = heartRate;
+    }
   }
 
   @Override
   public String toString() {
-    return "Date: " + super.getDate().format(dateFormatter) + " Time: " + super.getTime().format(timeFormatter) + " Heart Rate: "
-        + this.getHeartRate() + " Activity: " + super.getTags();
-
+    return "Time: " + getTime().format(timeFormatter) + "\n"
+        + "Heart Rate: " + heartRate + "\n"
+        + "Activity: " + getTags();
   }
 }
