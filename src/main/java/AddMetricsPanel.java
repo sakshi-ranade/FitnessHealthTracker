@@ -96,7 +96,6 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     gbc.gridwidth = 1;
 
     // Period Log Sections
-    System.out.println(username);
     if (userProfile != null && userProfile.getGender() == Gender.FEMALE) {
       JPanel periodLogPanel = createPeriodLogPanel();
       gbc.gridy++;

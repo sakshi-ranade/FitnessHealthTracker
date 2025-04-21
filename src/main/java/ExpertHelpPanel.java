@@ -22,9 +22,6 @@ public class ExpertHelpPanel extends JPanel {
   private static final String CONFIG_FILE = "config.properties";
   private static final String[] TOPICS = {
       "General Health Advice",
-      "Heart Rate Analysis",
-      "Weight Management",
-      "Steps and Activity",
       "Period Health (Female)"
   };
 
@@ -174,22 +171,10 @@ public class ExpertHelpPanel extends JPanel {
     prompt.append("You are a health expert providing advice based on the following user health data and question.\n\n");
 
     // Add relevant health data based on topic
-    switch (topic) {
-      case "Heart Rate Analysis":
-        appendHeartRateData(prompt);
-        break;
-      case "Weight Management":
-        appendWeightData(prompt);
-        break;
-      case "Steps and Activity":
-        appendStepsData(prompt);
-        break;
-      case "Period Health (Female)":
-        appendPeriodData(prompt);
-        break;
-      default:
-        // For general health, include summary of all data
-        appendBasicHealthSummary(prompt);
+    if (topic.equals("Period Health (Female)")) {
+      appendPeriodData(prompt);
+    } else {// For general health, include summary of all data
+      appendBasicHealthSummary(prompt);
     }
 
     prompt.append("\nUser Question: ").append(question).append("\n\n");
@@ -280,10 +265,9 @@ public class ExpertHelpPanel extends JPanel {
 
     // Add summary counts
     prompt.append("DATA SUMMARY:\n");
-    prompt.append("Weight records: ").append(metricsManager.getAllWeights().size()).append("\n");
-    prompt.append("Heart rate records: ").append(metricsManager.getAllHeartRates().size()).append("\n");
-    prompt.append("Steps records: ").append(metricsManager.getAllSteps().size()).append("\n");
-
+    appendWeightData(prompt);
+    appendStepsData(prompt);
+    appendHeartRateData(prompt);
     // Include most recent data points if available
     var weights = metricsManager.getAllWeights();
     if (!weights.isEmpty()) {
