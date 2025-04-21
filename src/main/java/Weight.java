@@ -6,6 +6,7 @@
 
 public class Weight{
   private static final double POUND_KG_CONVERSION = 0.453592;
+  private static final double MAX_WEIGHT = 500d;
   private double weightInKg; //Designed to store weight values in Kilograms
   private String unit;
 
@@ -25,16 +26,19 @@ public class Weight{
       throw new IllegalArgumentException("Weight cannot be negative!");
     }
     unit = unit.toLowerCase();
-
+    double inputWeight = 0;
     switch(unit){
       case "kg":
-        this.weightInKg = weight;
+        inputWeight = weight;
         break;
       case "lb":
-        this.weightInKg = convertPoundsToKg(weight);
+        inputWeight = convertPoundsToKg(weight);
         break;
     }
-
+    if(inputWeight > MAX_WEIGHT) {
+      throw new IllegalArgumentException("Unable to save weight metric more than " + MAX_WEIGHT + " kgs.");
+    }
+    this.weightInKg = inputWeight;
     this.unit = unit;
   }
 

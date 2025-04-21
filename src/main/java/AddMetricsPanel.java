@@ -8,6 +8,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * This panel is used to input and save different daily health metrics
+ * like weight, steps, heart rate, and period logs (for female users).
+ * It also includes navigation buttons to view saved metrics or logout.
+ * This class uses GridBagLayout to organize components on the screen.
+ */
 public class AddMetricsPanel extends JPanel implements ActionListener {
 
   private MainFrame mainFrame;
@@ -39,16 +45,25 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
   private JButton viewMetricsButton;
   private JButton logoutButton;
 
+  /**
+   * Constructor for the AddMetricsPanel.
+   * It sets up the layout and adds all input sections and navigation buttons.
+   *
+   * @param mainFrame Reference to the main application frame.
+   * @param username The username of the logged-in user.
+   * @throws IOException If there is an error reading user profile data.
+   */
   public AddMetricsPanel(MainFrame mainFrame, String username) throws IOException {
     this.mainFrame = mainFrame;
     this.username = username; // Store the username
+    // Use GridBagLayout to position components in a flexible grid.
     setLayout(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
-    gbc.insets = new Insets(5, 5, 5, 5);
+    gbc.insets = new Insets(5, 5, 5, 5); // spacing between components
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.gridwidth = GridBagConstraints.REMAINDER;
     gbc.anchor = GridBagConstraints.NORTH;
-    // Add user profile string label at the top
+    // Show user profile information (name and age) at the top
     UserProfile userProfile = UserDataStorage.getUserProfile(username);
     if (userProfile != null) {
       JPanel profilePanel = createProfileHeading(userProfile);
@@ -100,6 +115,12 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
 
   }
 
+  /**
+   * Creates a panel to input and save the user's weight.
+   * Users can enter weight and choose the unit (kg or lbs).
+   *
+   * @return JPanel containing weight input components.
+   */
   private JPanel createWeightPanel() {
     JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
@@ -109,7 +130,7 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 0;
     panel.add(new JLabel("Weight:"), gbc);
-
+    // Dropdown to select weight unit
     gbc.gridx = 1;
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     weightField = new JTextField(10);
@@ -128,6 +149,12 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Creates a panel to input and save the user's steps for today.
+   * Users can enter the number of steps taken.
+   *
+   * @return JPanel containing steps input components.
+   */
   private JPanel createStepsPanel() {
     JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
@@ -152,6 +179,12 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Creates a panel to input and save heart rate data.
+   * Users can enter heart rate value, time, and a tag describing the context.
+   *
+   * @return JPanel containing heart rate input components.
+   */
   private JPanel createHeartRatePanel() {
     JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
@@ -186,7 +219,14 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Creates a panel for female users to log their period data.
+   * Includes start and end dates, flow level, and optional tags.
+   *
+   * @return JPanel containing period log input components.
+   */
   private JPanel createPeriodLogPanel() {
+    // This panel is only shown for female users.
     JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.insets = new Insets(5, 5, 5, 5);
@@ -230,6 +270,12 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Creates a heading panel that shows the user's name, username and age.
+   *
+   * @param userProfile The profile of the currently logged-in user.
+   * @return JPanel with name, username and age.
+   */
   private JPanel createProfileHeading(UserProfile userProfile) {
     JPanel panel = new JPanel(new GridBagLayout());
     GridBagConstraints gbc = new GridBagConstraints();
@@ -253,6 +299,11 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Creates navigation buttons for viewing metrics or logging out.
+   *
+   * @return JPanel containing navigation buttons.
+   */
   private JPanel createNavigationPanel() {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     viewMetricsButton = new JButton("View Metrics");
@@ -266,6 +317,12 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
     return panel;
   }
 
+  /**
+   * Handles actions when buttons are clicked.
+   * Based on the source of the event, it saves the respective metric data.
+   *
+   * @param e The action event triggered by a button click.
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == saveWeightButton) {
@@ -286,6 +343,8 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(this, "Weight format is invalid.",
               "Error", JOptionPane.ERROR_MESSAGE);
+        }  catch (IllegalArgumentException ex) {
+          JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
         }
       } else {
         JOptionPane.showMessageDialog(this, "User not logged in.",
@@ -308,6 +367,8 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(this, "Invalid steps format. ",
               "Error", JOptionPane.ERROR_MESSAGE);
+        }  catch (IllegalArgumentException ex) {
+          JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
         }
       } else {
         JOptionPane.showMessageDialog(this, "User not logged in.",
@@ -338,6 +399,8 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
         } catch (DateTimeParseException ex) {
           JOptionPane.showMessageDialog(this, "Invalid time format (HH:MM).",
               "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+          JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
         }
       } else {
         JOptionPane.showMessageDialog(this, "User not logged in.",
@@ -365,6 +428,8 @@ public class AddMetricsPanel extends JPanel implements ActionListener {
         } catch (DateTimeParseException ex) {
           JOptionPane.showMessageDialog(this, "Invalid date format (YYYY-MM-DD).",
               "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+          JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
         }
       } else {
         JOptionPane.showMessageDialog(this, "User not logged in.",

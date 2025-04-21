@@ -23,7 +23,7 @@ public class HeartRate extends LogEntry {
     // Call the constructor of the superclass (LogEntry)
     super(tags, date, time);
     // Initialize the heartRate for this HeartRate object
-    this.heartRate = heartRate;
+    validateHeartRate();
   }
 
   /**
