@@ -15,9 +15,9 @@ import java.time.Year;
 
 public class UserProfile {
 
-  String name;
-  String userName;
-  String password;
+  private String name;
+  private String userName;
+  private String password;
   private Gender gender;
   private LocalDate dateOfBirth;
 

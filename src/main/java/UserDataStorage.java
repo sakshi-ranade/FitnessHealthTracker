@@ -84,7 +84,6 @@ public class UserDataStorage {
         String[] parts = line.split("\\|");
         if (parts.length >= 4 && parts[1].equals(username)) {
           String decryptedPassword = xorEncrypt(parts[3], Constants.XOR_KEY);
-          System.out.println("HEre");
           return decryptedPassword.equals(password);
         }
       }
