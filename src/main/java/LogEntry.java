@@ -1,3 +1,4 @@
+import java.time.LocalDate; // Import the LocalDate class for handling dates
 import java.time.LocalTime; // Import the LocalTime class for handling times
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class for formatting dates and times
 
@@ -13,17 +14,24 @@ public abstract class LogEntry {
    */
   protected String tags;
   /**
+   * The date of the log entry.
+   */
+  protected LocalDate date;
+  /**
    * The time of the log entry.
    */
   protected LocalTime time;
+
   /**
    * Constructs a new {@code LogEntry} with the specified tags, date, and time.
    *
    * @param tags The tags associated with this log entry.
+   * @param date The date of this log entry.
    * @param time The time of this log entry.
    */
-  public LogEntry(String tags, LocalTime time) {
+  public LogEntry(String tags, LocalDate date, LocalTime time) {
     this.tags = tags;
+    this.date = date;
     this.time = time;
   }
 
@@ -46,21 +54,30 @@ public abstract class LogEntry {
   }
 
   /**
+   * Returns the date of this log entry.
+   *
+   * @return The date of this log entry.
+   */
+  public LocalDate getDate() {
+    return date;
+  }
+
+  /**
+   * Sets the date for this log entry.
+   *
+   * @param date The new date for this log entry.
+   */
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
+
+  /**
    * Returns the time of this log entry.
    *
    * @return The time of this log entry.
    */
   public LocalTime getTime() {
     return time;
-  }
-
-  /**
-   * Returns the time of this log entry formatted as "HH:mm:ss".
-   *
-   * @return The formatted time string.
-   */
-  public String getFormattedTime() {
-    return time.format(Constants.timeFormatter);
   }
 
   /**

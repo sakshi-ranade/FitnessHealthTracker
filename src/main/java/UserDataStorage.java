@@ -28,7 +28,7 @@ public class UserDataStorage {
     String encryptedPassword = xorEncrypt(profile.getPassword(), Constants.XOR_KEY);
 
     // Format the user data as a CSV line
-    String line = String.format("%s,%s,%s,%s,%s",
+    String line = String.format("%s|%s|%s|%s|%s",
         profile.getName(),
         profile.getUserName(),
         profile.getGender(),
@@ -60,7 +60,7 @@ public class UserDataStorage {
     try (BufferedReader reader = new BufferedReader(new FileReader(Constants.USER_DATA_FILE))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        String[] parts = line.split(",");
+        String[] parts = line.split("\\|");
         if (parts.length >= 2 && parts[1].equals(username)) {
           return true;
         }
@@ -81,9 +81,10 @@ public class UserDataStorage {
     try (BufferedReader reader = new BufferedReader(new FileReader(Constants.USER_DATA_FILE))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        String[] parts = line.split(",");
+        String[] parts = line.split("\\|");
         if (parts.length >= 4 && parts[1].equals(username)) {
           String decryptedPassword = xorEncrypt(parts[3], Constants.XOR_KEY);
+          System.out.println("HEre");
           return decryptedPassword.equals(password);
         }
       }
@@ -107,10 +108,10 @@ public class UserDataStorage {
     try (BufferedReader reader = new BufferedReader(new FileReader(Constants.USER_DATA_FILE))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        String[] parts = line.split(",");
-        if (parts.length >= 6 && parts[1].equals(username)) {
+        String[] parts = line.split("\\|");
+        if (parts.length >= 4 && parts[1].equals(username)) {
           String decryptedPassword = xorEncrypt(parts[3], Constants.XOR_KEY);
-          LocalDate dob = LocalDate.parse(parts[5]);
+          LocalDate dob = LocalDate.parse(parts[4]);
           return new UserProfile(parts[0], parts[1], decryptedPassword, Gender.valueOf(parts[2]), dob);
         }
       }

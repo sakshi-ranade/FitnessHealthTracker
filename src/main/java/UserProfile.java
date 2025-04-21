@@ -15,10 +15,6 @@ import java.time.Year;
 
 public class UserProfile {
 
-  /**
-   * Enumeration representing the gender options for the user.
-   */
-
   String name;
   String userName;
   String password;
@@ -177,7 +173,10 @@ public class UserProfile {
     // Calculate the age based on DOB and current date
     Period age = Period.between(dateOfBirth, LocalDate.now());
     // Return the age in years and months
-    return " Years: " + age.getYears() + "Months: " + age.getMonths();
+    if(age.getMonths() > 0){
+      return age.getYears() + " years and " + age.getMonths() + " months";
+    }
+    return age.getYears() + " years";
   }
 
   /**

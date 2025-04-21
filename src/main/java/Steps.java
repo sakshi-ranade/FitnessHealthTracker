@@ -1,32 +1,37 @@
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 /**
  * Represents a daily step count entry for a user.
- * Steps are associated with a specific date and time and stored as an integer.
+ * Steps are associated with a specific date and stored as an integer.
  * This class extends {@link LogEntry}.
  */
-public class Steps extends LogEntry {
+
+public class Steps extends LogEntry{
   private int steps;
 
   /**
-   * Constructs a {@code Steps} entry with date, time, and step count.
+   * Constructs a {@code Steps} entry for a given date.
    *
-   * @param time  The time of the step count log.
+   * @param date  The date of the step count log.
    * @param steps The number of steps (must be between 1 and 50,000).
    * @throws IllegalArgumentException if step count is invalid.
    */
-  public Steps(LocalTime time, int steps) {
-    super(null, time);
-    if (validateSteps(steps)) {
-      this.steps = steps;
-    }
+
+  //Constructor (tags and time are not tracked)
+  public Steps(LocalDate date, int steps){
+    super(null,date,null);
+    validateSteps(steps);
+    this.steps = steps;
   }
+
+  //Getter and Setter for Steps
 
   /**
    * Returns the number of steps logged.
    *
    * @return Number of steps.
    */
+
   public int getSteps() {
     return steps;
   }
@@ -38,9 +43,8 @@ public class Steps extends LogEntry {
    * @throws IllegalArgumentException if step count is invalid.
    */
   public void setSteps(int steps) {
-    if (validateSteps(steps)) {
-      this.steps = steps;
-    }
+    validateSteps(steps);
+    this.steps = steps;
   }
 
   /**
@@ -48,37 +52,45 @@ public class Steps extends LogEntry {
    * Steps must be between 1 and 50,000.
    *
    * @param steps Step count to validate.
-   * @return true if valid, otherwise throws IllegalArgumentException.
-   * @throws IllegalArgumentException if steps are invalid.
+   * @throws IllegalArgumentException if steps are negative or > 50000 (too high).
    */
-  private static boolean validateSteps(int steps) {
-    if (steps <= 0) {
+
+  public void validateSteps(int steps) // method to check step count
+  {
+    if (steps > 0 && steps <= 50000)
+    {
+      this.steps = steps;
+    }
+    else if (steps < 0)
+    {
       throw new IllegalArgumentException("Steps cannot be negative!");
     }
-    if (steps > 50000) {
+    else if (steps > 50000)
+    {
       throw new IllegalArgumentException("Step count too high!");
     }
-    return true;
   }
 
   /**
    * Converts steps into an approximate distance in kilometers.
-   * Assumes 1 step = 0.0007 kilometers.
+   * Assumes 1 step = 0.0008 kilometers.
    *
    * @return Equivalent distance in kilometers.
    */
+
   public double getDistanceInKm() {
-    return steps * 0.0007;
+    return steps * 0.0007; //approximate avg value for women and men source: https://www.omnicalculator.com/sports/steps-to-km
   }
 
   /**
    * Returns a string representation of the step entry.
    *
-   * @return A formatted string showing the date, time, and number of steps.
+   * @return A formatted string showing the date and number of steps.
    */
+
   @Override
   public String toString() {
-    return "Time: " + getFormattedTime()
-        + " Steps: " + steps;
+    return "Date: " + super.getDate().format(Constants.dateFormatter) +" Steps: "
+        + this.getSteps();
   }
 }

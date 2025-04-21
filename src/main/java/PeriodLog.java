@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit;
  */
 
 public class PeriodLog extends LogEntry{
-  private LocalDate startDate;
   private LocalDate endDate;
   private String flowLevel;
 
@@ -22,32 +21,12 @@ public class PeriodLog extends LogEntry{
    */
 
   public PeriodLog(String tags, LocalDate startDate, LocalDate endDate, String flowLevel){
-    super(tags, null); //time not needed
+    super(tags, startDate, null); //time not needed
     if(endDate.isBefore(startDate)){
       throw new IllegalArgumentException("End date cannot be before start date.");
     }
     this.flowLevel = flowLevel;
-    this.startDate = startDate;
     this.endDate = endDate;
-  }
-  //Getter and Setter for statDate
-  /**
-   * Returns the start date of the menstrual period.
-   *
-   * @return The start date.
-   */
-  public LocalDate getStartDate(){
-    return startDate;
-  }
-
-  /**
-   * Sets the start date of the menstrual period.
-   *
-   * @param startDate The end date to set.
-   */
-
-  public void setStartDate(LocalDate startDate){
-    this.startDate = startDate;
   }
 
   //Getter and Setter for endDate
@@ -102,7 +81,7 @@ public class PeriodLog extends LogEntry{
 
   //Method to calculate periods duration
   public String periodDuration(){
-    long daysDifference = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+    long daysDifference = ChronoUnit.DAYS.between(getDate(), endDate) + 1;
     return "Periods lasted for: "+ daysDifference + " days.";
   }
 
@@ -116,7 +95,7 @@ public class PeriodLog extends LogEntry{
   @Override
   public String toString() {
     return "Period Log" +
-        "\nStarted on: " + getStartDate().format(Constants.dateFormatter) +
+        "\nStarted on: " + getDate().format(Constants.dateFormatter) +
         "\nEnded on: " + getEndDate().format(Constants.dateFormatter) +
         "\n Duration: " + periodDuration();
   }

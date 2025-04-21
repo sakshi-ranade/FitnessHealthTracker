@@ -27,7 +27,7 @@ public class UserProfileTest {
     // Check that DOB is set correctly
     assertEquals(dob, user.getDateOfBirth());
     // Check that the age string includes "Years"
-    assertTrue(user.getAge().contains("Years"));
+    assertTrue(user.getAge().contains("years"));
   }
 
   /**

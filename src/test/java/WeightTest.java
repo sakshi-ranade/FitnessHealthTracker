@@ -30,11 +30,11 @@ public class WeightTest {
    */
   @Test
   public void testConvertPoundsToKg(){
-    double pounds = 150.20;
+    double pounds = 150.1;
     String unit = "lb";
     Weight entry2 = new Weight(pounds, unit);
     //Should convert pounds to kg
-    double expectedWeightInKg = pounds * 0.453592;
+    double expectedWeightInKg = Math.round(pounds * 0.453592 * 10.0) / 10.0;
     assertEquals(expectedWeightInKg, entry2.getWeight(), 0.001);
     assertEquals("lb", entry2.getUnit());
     //Testing whether original pounds value is returned

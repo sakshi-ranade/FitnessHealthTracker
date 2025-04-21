@@ -62,7 +62,7 @@ public class DailyMetricsManager {
           writer.write("date,weight,unit");
           break;
         case STEPS_FILE:
-          writer.write("date,time,steps");
+          writer.write("date,steps");
           break;
         case HEART_RATE_FILE:
           writer.write("date,time,tag,heartRate");
@@ -155,16 +155,14 @@ public class DailyMetricsManager {
   /**
    * Adds a new steps entry to the steps file.
    *
-   * @param date The date of the steps entry.
    * @param steps The Steps object to save.
    * @return true if successful, false otherwise.
    */
-  public boolean addSteps(LocalDate date, Steps steps) {
+  public boolean addSteps(Steps steps) {
     try {
       // Append new entry
-      String entry = String.format("%s,%s,%d",
-          date.format(Constants.dateFormatter),
-          steps.getTime().format(Constants.timeFormatter),
+      String entry = String.format("%s,%d",
+          steps.getDate().format(Constants.dateFormatter),
           steps.getSteps());
 
       Files.write(Paths.get(userFolder + STEPS_FILE),
@@ -193,10 +191,9 @@ public class DailyMetricsManager {
         String line = lines.get(i);
         String[] parts = line.split(",");
 
-        if (parts.length >= 3 && parts[0].equals(date.format(Constants.dateFormatter))) {
-          LocalTime time = LocalTime.parse(parts[1], Constants.timeFormatter);
-          int stepsCount = Integer.parseInt(parts[2]);
-          stepsList.add(new Steps(time, stepsCount));
+        if (parts.length == 2 && parts[0].equals(date.format(Constants.dateFormatter))) {
+          int stepsCount = Integer.parseInt(parts[1]);
+          stepsList.add(new Steps(date, stepsCount));
         }
       }
     } catch (IOException e) {
@@ -209,15 +206,14 @@ public class DailyMetricsManager {
   /**
    * Adds a new heart rate entry to the heart rate file.
    *
-   * @param date The date of the heart rate entry.
    * @param heartRate The HeartRate object to save.
    * @return true if successful, false otherwise.
    */
-  public boolean addHeartRate(LocalDate date, HeartRate heartRate) {
+  public boolean addHeartRate(HeartRate heartRate) {
     try {
       // Append new entry
       String entry = String.format("%s,%s,%s,%d",
-          date.format(Constants.dateFormatter),
+          heartRate.getDate().format(Constants.dateFormatter),
           heartRate.getTime().format(Constants.timeFormatter),
           heartRate.getTags(),
           heartRate.getHeartRate());
@@ -252,7 +248,7 @@ public class DailyMetricsManager {
           LocalTime time = LocalTime.parse(parts[1], Constants.timeFormatter);
           String tags = parts[2];
           int heartRateValue = Integer.parseInt(parts[3]);
-          heartRates.add(new HeartRate(tags, time, heartRateValue));
+          heartRates.add(new HeartRate(tags, date, time, heartRateValue));
         }
       }
     } catch (IOException e) {
@@ -272,7 +268,7 @@ public class DailyMetricsManager {
     try {
       // Append new entry
       String entry = String.format("%s,%s,%s,%s",
-          periodLog.getStartDate().format(Constants.dateFormatter),
+          periodLog.getDate().format(Constants.dateFormatter),
           periodLog.getEndDate().format(Constants.dateFormatter),
           periodLog.getFlowLevel(),
           periodLog.getTags());
@@ -330,7 +326,7 @@ public class DailyMetricsManager {
     List<PeriodLog> filteredLogs = new ArrayList<>();
 
     for (PeriodLog log : allLogs) {
-      LocalDate startDate = log.getStartDate();
+      LocalDate startDate = log.getDate();
       if (startDate.getYear() == year && startDate.getMonthValue() == month) {
         filteredLogs.add(log);
       }
@@ -384,12 +380,11 @@ public class DailyMetricsManager {
         String line = lines.get(i);
         String[] parts = line.split(",");
 
-        if (parts.length >= 3) {
+        if (parts.length >= 2) {
           LocalDate date = LocalDate.parse(parts[0], Constants.dateFormatter);
-          LocalTime time = LocalTime.parse(parts[1], Constants.timeFormatter);
-          int stepsCount = Integer.parseInt(parts[2]);
+          int stepsCount = Integer.parseInt(parts[1]);
 
-          Steps step = new Steps(time, stepsCount);
+          Steps step = new Steps(date, stepsCount);
 
           if (!allSteps.containsKey(date)) {
             allSteps.put(date, new ArrayList<>());
@@ -425,7 +420,7 @@ public class DailyMetricsManager {
           String tags = parts[2];
           int heartRateValue = Integer.parseInt(parts[3]);
 
-          HeartRate heartRate = new HeartRate(tags, time, heartRateValue);
+          HeartRate heartRate = new HeartRate(tags, date, time, heartRateValue);
 
           if (!allHeartRates.containsKey(date)) {
             allHeartRates.put(date, new ArrayList<>());

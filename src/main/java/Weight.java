@@ -48,7 +48,7 @@ public class Weight{
 
   public static double convertPoundsToKg(double pounds){
     //Converts lb to kg
-    return pounds * 0.453592;
+    return Math.round(pounds * 0.453592 * 10.0) / 10.0;
   }
 
   /**
@@ -58,7 +58,7 @@ public class Weight{
    * @return Equivalent weight in pounds.
    */
   public static double convertKgToPounds(double kg) {
-    return kg / 0.453592;
+    return Math.round(kg / 0.453592 * 10.0) / 10.0;
   }
 
   //Getter for weightInKg
