@@ -45,3 +45,4 @@ bin/
 
 build
 .idea
+/src/main/resources/users/*
