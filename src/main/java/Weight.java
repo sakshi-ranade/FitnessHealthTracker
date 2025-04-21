@@ -5,6 +5,7 @@
  */
 
 public class Weight{
+  private static final double POUND_KG_CONVERSION = 0.453592;
   private double weightInKg; //Designed to store weight values in Kilograms
   private String unit;
 
@@ -17,8 +18,6 @@ public class Weight{
    * @throws IllegalArgumentException if weight is invalid or unit is unsupported.
    *
    */
-
-  //Constructor for the weightInKg class
   public Weight(double weight, String unit){
     // Call the constructor of the superclass (LogEntry)
     //Validate weightInKg value can't be negative
@@ -42,23 +41,23 @@ public class Weight{
   /**
    * Converts weight from pounds to kilograms to store internally
    *
-   * @param pounds weight in pounds
+   * @param weightInPounds weight in pounds
    * @return weight equivalent in kg
    */
 
-  public static double convertPoundsToKg(double pounds){
+  public static double convertPoundsToKg(double weightInPounds){
     //Converts lb to kg
-    return Math.round(pounds * 0.453592 * 10.0) / 10.0;
+    return Math.round(weightInPounds * POUND_KG_CONVERSION * 10.0) / 10.0;
   }
 
   /**
    * Converts a weight from kilograms to pounds.
    *
-   * @param kg Weight in kilograms.
+   * @param weightInKg Weight in kilograms.
    * @return Equivalent weight in pounds.
    */
-  public static double convertKgToPounds(double kg) {
-    return Math.round(kg / 0.453592 * 10.0) / 10.0;
+  public static double convertKgToPounds(double weightInKg) {
+    return Math.round( (weightInKg / POUND_KG_CONVERSION) * 10.0) / 10.0;
   }
 
   //Getter for weightInKg
@@ -93,7 +92,6 @@ public class Weight{
    *
    * @return A string showing date, time, and weight in the originally selected unit.
    */
-
   @Override
   public String toString() {
     return "Weight: " + this.getWeight();

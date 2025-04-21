@@ -7,6 +7,8 @@ import java.time.LocalDate;
  */
 
 public class Steps extends LogEntry{
+  private static final int MAX_VALID_STEPS = 50000;
+  private static final double STEP_TO_KM_CONVERSION = 0.0007;
   private int steps;
 
   /**
@@ -57,16 +59,11 @@ public class Steps extends LogEntry{
 
   public void validateSteps(int steps) // method to check step count
   {
-    if (steps > 0 && steps <= 50000)
-    {
+    if (steps > 0 && steps <= MAX_VALID_STEPS) {
       this.steps = steps;
-    }
-    else if (steps < 0)
-    {
+    } else if (steps < 0) {
       throw new IllegalArgumentException("Steps cannot be negative!");
-    }
-    else if (steps > 50000)
-    {
+    } else if (steps > MAX_VALID_STEPS) {
       throw new IllegalArgumentException("Step count too high!");
     }
   }
@@ -79,7 +76,7 @@ public class Steps extends LogEntry{
    */
 
   public double getDistanceInKm() {
-    return steps * 0.0007; //approximate avg value for women and men source: https://www.omnicalculator.com/sports/steps-to-km
+    return Math.round(steps * STEP_TO_KM_CONVERSION * 10.0) / 10.0; //approximate avg value for women and men source: https://www.omnicalculator.com/sports/steps-to-km
   }
 
   /**

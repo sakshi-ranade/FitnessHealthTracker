@@ -27,7 +27,7 @@ public class StepsTest {
   @Test
   public void testDistanceConversion() {
     Steps entry2 = new Steps(LocalDate.now(), 12500);
-    double expectedKmeEquivalency = 12500 * 0.0007;
+    double expectedKmeEquivalency = Math.round(12500 * 0.0007*10.0)/10.0;
     assertEquals(expectedKmeEquivalency, entry2.getDistanceInKm(), 0.0001);
   }
 
