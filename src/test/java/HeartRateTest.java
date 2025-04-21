@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the {@link HeartRate} class.
- *
  * Tests include validation of heart rate input, string formatting,
  * and getter/setter correctness for all fields.
  */
@@ -22,8 +21,6 @@ public class HeartRateTest {
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
     HeartRate heartRateEntry1 = new HeartRate("Running", date, time, 200);
-    //No exception should be thrown for a valid heart rate
-    assertDoesNotThrow(heartRateEntry1 :: validateHeartRate);
     assertEquals(200, heartRateEntry1.getHeartRate());
   }
 
@@ -36,9 +33,8 @@ public class HeartRateTest {
   public void testInvalidLowHeartRate(){
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
-    HeartRate heartRateEntry2 = new HeartRate("Resting", date, time, 20);
     // An IllegalArgumentException should be thrown
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, heartRateEntry2 :: validateHeartRate);
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new HeartRate("Resting", date, time, 20));
     // Verify the exception message matches the expected output
     assertEquals("Invalid Heart Rate Value Entered.", exception.getMessage());
   }
@@ -52,9 +48,8 @@ public class HeartRateTest {
   public void testInvalidHighHeartRate(){
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
-    HeartRate heartRateEntry3 = new HeartRate("Resting", date, time, 300);
     // An IllegalArgumentException should be thrown
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, heartRateEntry3 :: validateHeartRate);
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new HeartRate("Resting", date, time, 300));
     // Verify the exception message matches the expected output
     assertEquals("Invalid Heart Rate Value Entered.", exception.getMessage());
   }

@@ -88,6 +88,6 @@ public class Steps extends LogEntry{
   @Override
   public String toString() {
     return "Date: " + super.getDate().format(Constants.dateFormatter) +" Steps: "
-        + this.getSteps();
+        + this.getSteps() + " Distance: " + this.getDistanceInKm();
   }
 }

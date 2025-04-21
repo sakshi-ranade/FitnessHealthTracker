@@ -23,7 +23,7 @@ public class HeartRate extends LogEntry {
     // Call the constructor of the superclass (LogEntry)
     super(tags, date, time);
     // Initialize the heartRate for this HeartRate object
-    validateHeartRate();
+    validateHeartRate(heartRate);
   }
 
   /**
@@ -34,7 +34,7 @@ public class HeartRate extends LogEntry {
    */
 
   // Method to validate the heart rate value
-  public void validateHeartRate() // method to check heart rate values
+  public void validateHeartRate(int heartRate) // method to check heart rate values
   {
     // Check if the heart rate is within a (normal) valid range (30 to 220 inclusive)
     if (heartRate > 30 && heartRate <221){

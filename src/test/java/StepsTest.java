@@ -60,7 +60,7 @@ public class StepsTest {
   public void testToString() {
     LocalDate date = LocalDate.of(2025, 4, 17);
     Steps entry3 = new Steps(date, 3000);
-    String expectedOutput = "Date: 04-17-2025 Steps: 3000";
+    String expectedOutput = "Date: 04-17-2025 Steps: 3000 Distance: 2.1";
     assertEquals(expectedOutput, entry3.toString());
   }
 }
